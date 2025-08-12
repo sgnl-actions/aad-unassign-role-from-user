@@ -1,7 +1,7 @@
 {
-  "name": "@sgnl/job-template",
+  "name": "@sgnl-actions/aad-unassign-role-from-user",
   "version": "1.0.0",
-  "description": "Template for SGNL JavaScript jobs",
+  "description": "Remove a directory role from a user in Azure Active Directory",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "validate": "node scripts/validate-metadata.js",
     "dev": "node scripts/dev-runner.js"
   },
-  "keywords": ["sgnl", "job", "template", "identity", "security"],
+  "keywords": ["sgnl", "azure", "active-directory", "aad", "role", "unassign", "identity", "security"],
   "author": "SGNL Engineering",
   "license": "MIT",
   "dependencies": {
