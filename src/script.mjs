@@ -83,6 +83,7 @@ export default {
    * @param {string} params.directoryScopeId - Directory scope ID (default: "/")
    * @param {string} params.justification - Justification for removal (default: "Removed by SGNL.ai")
    * @param {Object} context - Execution context with env, secrets, outputs
+   * @param {string} context.secrets.BEARER_AUTH_TOKEN - Bearer token for Azure AD API authentication
    * @returns {Object} Removal results
    */
   invoke: async (params, context) => {
@@ -110,12 +111,12 @@ export default {
       throw new Error('AZURE_AD_TENANT_URL environment variable is required');
     }
 
-    if (!context.secrets.AZURE_AD_TOKEN) {
-      throw new Error('AZURE_AD_TOKEN secret is required');
+    if (!context.secrets.BEARER_AUTH_TOKEN) {
+      throw new Error('BEARER_AUTH_TOKEN secret is required');
     }
 
     const tenantUrl = context.environment.AZURE_AD_TENANT_URL;
-    const authToken = context.secrets.AZURE_AD_TOKEN;
+    const authToken = context.secrets.BEARER_AUTH_TOKEN;
 
     console.log(`Removing role ${roleId} from user ${userPrincipalName} with scope ${directoryScopeId}`);
 

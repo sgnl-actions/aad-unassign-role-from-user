@@ -10,7 +10,7 @@ describe('Azure AD Unassign Role from User Script', () => {
       AZURE_AD_TENANT_URL: 'https://graph.microsoft.com'
     },
     secrets: {
-      AZURE_AD_TOKEN: 'mock-access-token'
+      BEARER_AUTH_TOKEN: 'mock-access-token'
     }
   };
 
@@ -170,20 +170,20 @@ describe('Azure AD Unassign Role from User Script', () => {
     test('should throw error when AZURE_AD_TENANT_URL is missing', async () => {
       const contextWithoutUrl = {
         environment: {},
-        secrets: { AZURE_AD_TOKEN: 'mock-token' }
+        secrets: { BEARER_AUTH_TOKEN: 'mock-token' }
       };
 
       await expect(script.invoke(validParams, contextWithoutUrl)).rejects.toThrow('AZURE_AD_TENANT_URL environment variable is required');
       expect(global.fetch).not.toHaveBeenCalled();
     });
 
-    test('should throw error when AZURE_AD_TOKEN is missing', async () => {
+    test('should throw error when BEARER_AUTH_TOKEN is missing', async () => {
       const contextWithoutToken = {
         environment: { AZURE_AD_TENANT_URL: 'https://graph.microsoft.com' },
         secrets: {}
       };
 
-      await expect(script.invoke(validParams, contextWithoutToken)).rejects.toThrow('AZURE_AD_TOKEN secret is required');
+      await expect(script.invoke(validParams, contextWithoutToken)).rejects.toThrow('BEARER_AUTH_TOKEN secret is required');
       expect(global.fetch).not.toHaveBeenCalled();
     });
 
