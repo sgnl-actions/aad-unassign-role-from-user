@@ -173,17 +173,17 @@ describe('Azure AD Unassign Role from User Script', () => {
         secrets: { OAUTH2_AUTHORIZATION_CODE_ACCESS_TOKEN: 'mock-token' }
       };
 
-      await expect(script.invoke(validParams, contextWithoutUrl)).rejects.toThrow('ADDRESS environment variable is required');
+      await expect(script.invoke(validParams, contextWithoutUrl)).rejects.toThrow('No URL specified');
       expect(global.fetch).not.toHaveBeenCalled();
     });
 
-    test('should throw error when OAUTH2_AUTHORIZATION_CODE_ACCESS_TOKEN is missing', async () => {
+    test('should throw error when authentication is missing', async () => {
       const contextWithoutToken = {
         environment: { ADDRESS: 'https://graph.microsoft.com' },
         secrets: {}
       };
 
-      await expect(script.invoke(validParams, contextWithoutToken)).rejects.toThrow('OAuth2 authentication is required');
+      await expect(script.invoke(validParams, contextWithoutToken)).rejects.toThrow('No authentication configured');
       expect(global.fetch).not.toHaveBeenCalled();
     });
 
