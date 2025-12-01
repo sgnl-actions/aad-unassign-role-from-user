@@ -88,19 +88,6 @@ export default {
    * @param {string} context.environment.OAUTH2_CLIENT_CREDENTIALS_TOKEN_URL
    *
    * @param {string} context.secrets.OAUTH2_AUTHORIZATION_CODE_ACCESS_TOKEN
-   * @param {string} context.secrets.OAUTH2_AUTHORIZATION_CODE_AUTHORIZATION_CODE
-   * @param {string} context.secrets.OAUTH2_AUTHORIZATION_CODE_CLIENT_SECRET
-   * @param {string} context.secrets.OAUTH2_AUTHORIZATION_CODE_REFRESH_TOKEN
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_AUTH_STYLE
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_AUTH_URL
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_CLIENT_ID
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_LAST_TOKEN_ROTATION_TIMESTAMP
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_REDIRECT_URI
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_SCOPE
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_TOKEN_LIFETIME_FREQUENCY
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_TOKEN_ROTATION_FREQUENCY
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_TOKEN_ROTATION_INTERVAL
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_TOKEN_URL
    *
    * @returns {Object} Removal results
    */
