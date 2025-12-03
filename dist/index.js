@@ -260,19 +260,6 @@ var script = {
    * @param {string} context.environment.OAUTH2_CLIENT_CREDENTIALS_TOKEN_URL
    *
    * @param {string} context.secrets.OAUTH2_AUTHORIZATION_CODE_ACCESS_TOKEN
-   * @param {string} context.secrets.OAUTH2_AUTHORIZATION_CODE_AUTHORIZATION_CODE
-   * @param {string} context.secrets.OAUTH2_AUTHORIZATION_CODE_CLIENT_SECRET
-   * @param {string} context.secrets.OAUTH2_AUTHORIZATION_CODE_REFRESH_TOKEN
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_AUTH_STYLE
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_AUTH_URL
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_CLIENT_ID
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_LAST_TOKEN_ROTATION_TIMESTAMP
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_REDIRECT_URI
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_SCOPE
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_TOKEN_LIFETIME_FREQUENCY
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_TOKEN_ROTATION_FREQUENCY
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_TOKEN_ROTATION_INTERVAL
-   * @param {string} context.environment.OAUTH2_AUTHORIZATION_CODE_TOKEN_URL
    *
    * @returns {Object} Removal results
    */
@@ -328,33 +315,19 @@ var script = {
   },
 
   /**
-   * Error recovery handler - handles retryable errors
+   * Error recovery handler - framework handles retries by default
+   * Only implement if custom recovery logic is needed
    * @param {Object} params - Original params plus error information
    * @param {Object} context - Execution context
    * @returns {Object} Recovery results
    */
   error: async (params, _context) => {
-    const { error } = params;
-    console.error(`Role removal encountered error: ${error.message}`);
+    const { error, userPrincipalName, roleId } = params;
+    console.error(`Role removal failed for user ${userPrincipalName} with role ${roleId}: ${error.message}`);
 
-    // Check if error is retryable
-    if (error.message.includes('429') || // Rate limited
-        error.message.includes('502') || // Bad gateway
-        error.message.includes('503') || // Service unavailable
-        error.message.includes('504')) { // Gateway timeout
-      console.log('Detected retryable error, waiting before retry...');
-      await new Promise(resolve => setTimeout(resolve, 5000));
-      return { status: 'retry_requested' };
-    }
-
-    // Mark authentication/authorization errors as fatal
-    if (error.message.includes('401') || error.message.includes('403')) {
-      console.error('Authentication/authorization error - not retrying');
-      throw error;
-    }
-
-    // Default: let framework handle retry
-    return { status: 'retry_requested' };
+    // Framework handles retries for transient errors (429, 502, 503, 504)
+    // Just re-throw the error to let the framework handle it
+    throw error;
   },
 
   /**
