@@ -6,7 +6,7 @@
  * 2. Create role assignment schedule request to remove the role assignment
  */
 
-import { getBaseUrl, createAuthHeaders } from '@sgnl-actions/utils';
+import { getBaseUrl, createAuthHeaders, resolveJsonPathTemplates } from '@sgnl-actions/utils';
 
 /**
  * Helper function to get user by UPN and remove role assignment
@@ -94,12 +94,22 @@ export default {
   invoke: async (params, context) => {
     console.log('Starting Azure AD role removal');
 
+    // Resolve JSONPath templates in params using job context from context.data
+    // Templates like {$.user.email} will be replaced with actual values
+    // Runtime values like {$.sgnl.time.now} and {$.sgnl.random.uuid} are also available
+    const jobContext = context.data || {};
+    const { result: resolvedParams, errors } = resolveJsonPathTemplates(params, jobContext);
+
+    if (errors.length > 0) {
+      console.warn('Template resolution warnings:', errors.join('; '));
+    }
+
     // Validate required parameters
-    if (!params.userPrincipalName) {
+    if (!resolvedParams.userPrincipalName) {
       throw new Error('userPrincipalName is required');
     }
 
-    if (!params.roleId) {
+    if (!resolvedParams.roleId) {
       throw new Error('roleId is required');
     }
 
@@ -109,10 +119,10 @@ export default {
       roleId,
       directoryScopeId = '/',
       justification = 'Removed by SGNL.ai'
-    } = params;
+    } = resolvedParams;
 
     // Get base URL and auth headers using shared utilities
-    const address = getBaseUrl(params, context);
+    const address = getBaseUrl(resolvedParams, context);
     const headers = await createAuthHeaders(context);
 
     console.log(`Removing role ${roleId} from user ${userPrincipalName} with scope ${directoryScopeId}`);
