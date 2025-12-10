@@ -523,11 +523,11 @@ async function unassignRoleFromUser(userPrincipalName, roleId, directoryScopeId,
 var script = {
   /**
    * Main execution handler - removes role from user
-   * @param {Object} resolvedParams - Job input parameters
-   * @param {string} resolvedParams.userPrincipalName - User principal name
-   * @param {string} resolvedParams.roleId - Role definition ID
-   * @param {string} resolvedParams.directoryScopeId - Directory scope ID (default: "/")
-   * @param {string} resolvedParams.justification - Justification for removal (default: "Removed by SGNL.ai")
+   * @param {Object} params - Job input parameters
+   * @param {string} params.userPrincipalName - User principal name
+   * @param {string} params.roleId - Role definition ID
+   * @param {string} params.directoryScopeId - Directory scope ID (default: "/")
+   * @param {string} params.justification - Justification for removal (default: "Removed by SGNL.ai")
    * @param {Object} context - Execution context with env, secrets, outputs
    * @param {string} context.environment.ADDRESS - Azure AD API base URL
    *
@@ -551,7 +551,7 @@ var script = {
     // Resolve JSONPath templates in params
     const { result: resolvedParams, errors } = resolveJSONPathTemplates(params, jobContext);
     if (errors.length > 0) {
-      console.warn('Template resolution errors:', errors);
+      throw new Error(`Failed to resolve template values: ${errors.join(', ')}`);
     }
 
     // Validate required parameters
