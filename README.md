@@ -29,47 +29,47 @@ The Azure AD application or service principal must have:
 
 This action supports two OAuth2 authentication methods:
 
-#### OAuth2 Authorization Code Flow
+#### Option 1: OAuth2 Client Credentials
+| Secret/Environment | Description |
+|-------------------|-------------|
+| `OAUTH2_CLIENT_CREDENTIALS_CLIENT_SECRET` | OAuth2 client secret |
+| `OAUTH2_CLIENT_CREDENTIALS_CLIENT_ID` | OAuth2 client ID |
+| `OAUTH2_CLIENT_CREDENTIALS_TOKEN_URL` | OAuth2 token endpoint URL |
+| `OAUTH2_CLIENT_CREDENTIALS_SCOPE` | OAuth2 scope (optional) |
+| `OAUTH2_CLIENT_CREDENTIALS_AUDIENCE` | OAuth2 audience (optional) |
+| `OAUTH2_CLIENT_CREDENTIALS_AUTH_STYLE` | OAuth2 auth style (optional) |
 
-**Required Secrets:**
-- **`OAUTH2_AUTHORIZATION_CODE_ACCESS_TOKEN`**: OAuth2 access token
-
-#### OAuth2 Client Credentials Flow
-
-**Required Secrets:**
-- **`OAUTH2_CLIENT_CREDENTIALS_CLIENT_SECRET`**: OAuth2 client secret
-
-**Required Environment Variables:**
-- **`OAUTH2_CLIENT_CREDENTIALS_TOKEN_URL`**: Token endpoint URL
-- **`OAUTH2_CLIENT_CREDENTIALS_CLIENT_ID`**: OAuth2 client ID
-
-**Optional Environment Variables:**
-- **`OAUTH2_CLIENT_CREDENTIALS_AUTH_STYLE`**: Authentication style (`InHeader`, `InParams`, or `AutoDetect`)
-- **`OAUTH2_CLIENT_CREDENTIALS_SCOPE`**: OAuth2 scope
-- **`OAUTH2_CLIENT_CREDENTIALS_AUDIENCE`**: OAuth2 audience
+#### Option 2: OAuth2 Authorization Code
+| Secret | Description |
+|--------|-------------|
+| `OAUTH2_AUTHORIZATION_CODE_ACCESS_TOKEN` | OAuth2 access token |
 
 ### Required Environment Variables
 
-- **`ADDRESS`**: Azure AD API base URL (e.g., `https://graph.microsoft.com`)
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `ADDRESS` | Default Azure AD API base URL | `https://graph.microsoft.com` |
 
 ### Input Parameters
 
-| Name | Type | Description | Required | Default |
-|------|------|-------------|----------|---------|
-| `userPrincipalName` | string | User Principal Name (UPN) of the user to remove the role from | Yes | None |
-| `roleId` | string | Directory role definition ID to remove | Yes | None |
-| `directoryScopeId` | string | Directory scope ID for the role assignment to remove | No | "/" |
-| `justification` | string | Justification for removing the role assignment | No | "Removed by SGNL.ai" |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------|---------|
+| `userPrincipalName` | string | Yes | User Principal Name (UPN) of the user to remove the role from | None |
+| `roleId` | string | Yes | Directory role definition ID to remove | None |
+| `directoryScopeId` | string | No | Directory scope ID for the role assignment to remove | "/" |
+| `justification` | string | No | Justification for removing the role assignment | "Removed by SGNL.ai" |
+| `address` | string | No | Optional Azure AD API base URL override | None |
 
-### Output Values
+### Output Structure
 
-| Name | Type | Description |
-|------|------|-------------|
+| Field | Type | Description |
+|-------|------|-------------|
 | `status` | string | Operation result (success, failed, recovered, etc.) |
 | `userPrincipalName` | string | User Principal Name that was processed |
 | `roleId` | string | Role ID that was removed |
 | `userId` | string | User's directory object ID |
 | `requestId` | string | Role removal request ID |
+| `address` | string | The Azure AD API base URL used |
 
 ## Usage Examples
 
