@@ -135,7 +135,7 @@ export default {
         roleId,
         userId: result.userId,
         requestId: result.requestId,
-        address: baseUrl
+        address: address
       };
     } catch (error) {
       console.error(`Failed to remove role: ${error.message}`);
