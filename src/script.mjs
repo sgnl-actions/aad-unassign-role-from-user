@@ -6,7 +6,7 @@
  * 2. Create role assignment schedule request to remove the role assignment
  */
 
-import { getBaseURL, createAuthHeaders, resolveJSONPathTemplates} from '@sgnl-actions/utils';
+import { getBaseURL, createAuthHeaders} from '@sgnl-actions/utils';
 
 /**
  * Helper function to get user by UPN and remove role assignment
@@ -95,24 +95,16 @@ export default {
   invoke: async (params, context) => {
     console.log('Starting Azure AD role removal');
 
-    const jobContext = context.data || {};
-
-    // Resolve JSONPath templates in params
-    const { result: resolvedParams, errors } = resolveJSONPathTemplates(params, jobContext);
-    if (errors.length > 0) {
-      console.warn('Template resolution errors:', errors);
-    }
-
     // Extract parameters with defaults
     const {
       userPrincipalName,
       roleId,
       directoryScopeId = '/',
       justification = 'Removed by SGNL.ai'
-    } = resolvedParams;
+    } = params;
 
     // Get base URL and auth headers using shared utilities
-    const address = getBaseURL(resolvedParams, context);
+    const address = getBaseURL(params, context);
     const headers = await createAuthHeaders(context);
 
     console.log(`Removing role ${roleId} from user ${userPrincipalName} with scope ${directoryScopeId}`);
