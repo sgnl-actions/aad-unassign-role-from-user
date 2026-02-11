@@ -1,5 +1,6 @@
 import { jest } from '@jest/globals';
 import script from '../src/script.mjs';
+import { SGNL_USER_AGENT } from '@sgnl-actions/utils';
 
 // Mock fetch globally
 global.fetch = jest.fn();
@@ -61,7 +62,8 @@ describe('Azure AD Unassign Role from User Script', () => {
         expect.objectContaining({
           method: 'GET',
           headers: expect.objectContaining({
-            'Authorization': 'Bearer mock-access-token'
+            'Authorization': 'Bearer mock-access-token',
+            'User-Agent': SGNL_USER_AGENT
           })
         })
       );
@@ -73,7 +75,8 @@ describe('Azure AD Unassign Role from User Script', () => {
           method: 'POST',
           headers: expect.objectContaining({
             'Authorization': 'Bearer mock-access-token',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'User-Agent': SGNL_USER_AGENT
           }),
           body: expect.stringContaining('"action":"adminRemove"')
         })
