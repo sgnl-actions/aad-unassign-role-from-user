@@ -6,7 +6,7 @@
  * 2. Create role assignment schedule request to remove the role assignment
  */
 
-import { getBaseURL, createAuthHeaders} from '@sgnl-actions/utils';
+import { getBaseURL, createAuthHeaders } from '@sgnl-actions/utils';
 
 /**
  * Helper function to get user by UPN and remove role assignment
