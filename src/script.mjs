@@ -6,7 +6,7 @@
  * 2. Create role assignment schedule request to remove the role assignment
  */
 
-import { getBaseURL, createAuthHeaders } from '@sgnl-actions/utils';
+import { getBaseURL, createHeaders } from '@sgnl-actions/utils';
 
 /**
  * Helper function to get user by UPN and remove role assignment
@@ -105,7 +105,7 @@ export default {
 
     // Get base URL and auth headers using shared utilities
     const address = getBaseURL(params, context);
-    const headers = await createAuthHeaders(context);
+    const headers = await createHeaders(context);
 
     console.log(`Removing role ${roleId} from user ${userPrincipalName} with scope ${directoryScopeId}`);
 
