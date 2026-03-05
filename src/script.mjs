@@ -159,8 +159,6 @@ export default {
           roleId,
           userId: result.userId,
           requestId: null,
-          alreadyUnassigned: true,
-          message: result.message,
           address: address
         };
       } else {
@@ -171,7 +169,6 @@ export default {
           roleId,
           userId: result.userId,
           requestId: result.requestId,
-          alreadyUnassigned: false,
           address: address
         };
       }
