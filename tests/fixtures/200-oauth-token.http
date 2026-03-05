@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "token_type": "Bearer",
+  "expires_in": 3599,
+  "ext_expires_in": 3599,
+  "access_token": "testtoken"
+}

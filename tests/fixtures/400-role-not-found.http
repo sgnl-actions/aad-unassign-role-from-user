@@ -1,0 +1,14 @@
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+
+{
+  "error": {
+    "code": "RoleDefinitionNotFound",
+    "message": "The role definition ID '88d8e3e3-8f55-4a1e-953a-9b9898b8876c' is not found.",
+    "innerError": {
+      "date": "2026-03-05T02:15:30",
+      "request-id": "cd9e55dc-5b9a-572d-a4g9-9f974f2677d5",
+      "client-request-id": "cd9e55dc-5b9a-572d-a4g9-9f974f2677d5"
+    }
+  }
+}

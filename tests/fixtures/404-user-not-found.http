@@ -1,0 +1,14 @@
+HTTP/1.1 404 Not Found
+Content-Type: application/json
+
+{
+  "error": {
+    "code": "Request_ResourceNotFound",
+    "message": "Resource 'nonexistentuser@yourtenant.onmicrosoft.com' does not exist or one of its queried reference-property objects are not present.",
+    "innerError": {
+      "date": "2026-03-05T02:15:30",
+      "request-id": "ac9c55ca-3a79-470b-82e7-8d752f0566b3",
+      "client-request-id": "ac9c55ca-3a79-470b-82e7-8d752f0566b3"
+    }
+  }
+}

@@ -181,9 +181,10 @@ async function createAuthHeaders(context) {
 /**
  * Azure AD Unassign Role from User Action
  *
- * Removes a directory role from a user in Azure Active Directory using a two-step process:
+ * Removes a directory role from a user in Azure Active Directory using a three-step process:
  * 1. Get user's directory object ID by user principal name
- * 2. Create role assignment schedule request to remove the role assignment
+ * 2. Check if the role assignment exists (for idempotency)
+ * 3. Create role assignment schedule request to remove the role assignment (only if it exists)
  */
 
 
@@ -214,7 +215,35 @@ async function unassignRoleFromUser(userPrincipalName, roleId, directoryScopeId,
   const userData = await getUserResponse.json();
   const userId = userData.id;
 
-  // Step 2: Create role assignment schedule request for removal
+  // Step 2: Check if role assignment exists (for idempotency)
+  const baseURL = `${address}/v1.0/roleManagement/directory/roleAssignments`;
+  const url = new URL(baseURL);
+  url.searchParams.set('$filter', `principalId eq '${userId}' and roleDefinitionId eq '${roleId}' and directoryScopeId eq '${directoryScopeId}'`);
+  const checkAssignmentUrl = url.toString();
+
+  const checkResponse = await fetch(checkAssignmentUrl, {
+    method: 'GET',
+    headers
+  });
+
+  if (!checkResponse.ok) {
+    throw new Error(`Failed to check existing role assignments for user ${userPrincipalName}: ${checkResponse.status} ${checkResponse.statusText}`);
+  }
+
+  const existingAssignments = await checkResponse.json();
+
+  // If assignment doesn't exist, return success without attempting removal
+  if (!existingAssignments.value || existingAssignments.value.length === 0) {
+    return {
+      userId,
+      requestId: null,
+      removalData: null,
+      alreadyUnassigned: true,
+      message: "Role assignment not found - already unassigned"
+    };
+  }
+
+  // Step 3: Create role assignment schedule request for removal (only if assignment exists)
   const unassignRoleUrl = `${address}/v1.0/roleManagement/directory/roleAssignmentScheduleRequests`;
 
   const roleRemovalRequest = {
@@ -243,7 +272,8 @@ async function unassignRoleFromUser(userPrincipalName, roleId, directoryScopeId,
   return {
     userId,
     requestId: removalData.id,
-    removalData
+    removalData,
+    alreadyUnassigned: false
   };
 }
 
@@ -298,16 +328,30 @@ var script = {
         headers
       );
 
-      console.log(`Successfully removed role from user. Request ID: ${result.requestId}`);
-
-      return {
-        status: 'success',
-        userPrincipalName,
-        roleId,
-        userId: result.userId,
-        requestId: result.requestId,
-        address: address
-      };
+      if (result.alreadyUnassigned) {
+        console.log(`Role assignment was already removed or never existed. ${result.message}`);
+        return {
+          status: 'success',
+          userPrincipalName,
+          roleId,
+          userId: result.userId,
+          requestId: null,
+          alreadyUnassigned: true,
+          message: result.message,
+          address: address
+        };
+      } else {
+        console.log(`Successfully removed role from user. Request ID: ${result.requestId}`);
+        return {
+          status: 'success',
+          userPrincipalName,
+          roleId,
+          userId: result.userId,
+          requestId: result.requestId,
+          alreadyUnassigned: false,
+          address: address
+        };
+      }
     } catch (error) {
       console.error(`Failed to remove role: ${error.message}`);
       throw error;

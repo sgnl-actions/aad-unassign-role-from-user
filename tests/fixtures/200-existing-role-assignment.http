@@ -1,0 +1,20 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#roleManagement/directory/roleAssignments",
+  "value": [
+    {
+      "id": "existing-assignment-123",
+      "roleDefinitionId": "88d8e3e3-8f55-4a1e-953a-9b9898b8876b",
+      "principalId": "c9139ac2-cd61-4dd7-b96d-6f0c3bcd36ca",
+      "directoryScopeId": "/",
+      "createdDateTime": "2026-03-04T15:30:00Z",
+      "createdBy": {
+        "application": {
+          "id": "ad82754e-db8b-4dcd-8a2f-fb44e92327a3"
+        }
+      }
+    }
+  ]
+}
