@@ -74,7 +74,9 @@ async function unassignRoleFromUser(userPrincipalName, roleId, directoryScopeId,
     directoryScopeId: directoryScopeId,
     principalId: userId,
     scheduleInfo: {
-      startDateTime: new Date().toISOString()
+      // Microsoft Graph API requires startDateTime to be at least 5 minutes in the future
+      // for role removal operations to prevent "ActiveDurationTooShort" errors
+      startDateTime: new Date(Date.now() + 10 * 60 * 1000).toISOString() // 10 minutes from now
     }
   };
 
