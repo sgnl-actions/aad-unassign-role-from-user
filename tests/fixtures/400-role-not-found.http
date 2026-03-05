@@ -3,12 +3,12 @@ Content-Type: application/json
 
 {
   "error": {
-    "code": "RoleDefinitionNotFound",
-    "message": "The role definition ID '88d8e3e3-8f55-4a1e-953a-9b9898b8876c' is not found.",
+    "code": "RoleNotFound",
+    "message": "The role is not found.",
     "innerError": {
-      "date": "2026-03-05T02:15:30",
-      "request-id": "cd9e55dc-5b9a-572d-a4g9-9f974f2677d5",
-      "client-request-id": "cd9e55dc-5b9a-572d-a4g9-9f974f2677d5"
+      "date": "2026-03-05T03:14:17",
+      "request-id": "320df6bb-7dd7-49f4-a0e1-fb229038301d",
+      "client-request-id": "320df6bb-7dd7-49f4-a0e1-fb229038301d"
     }
   }
 }

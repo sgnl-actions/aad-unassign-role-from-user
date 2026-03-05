@@ -239,7 +239,7 @@ async function unassignRoleFromUser(userPrincipalName, roleId, directoryScopeId,
       requestId: null,
       removalData: null,
       alreadyUnassigned: true,
-      message: "Role assignment not found - already unassigned"
+      message: 'Role assignment not found - already unassigned'
     };
   }
 
