@@ -37,8 +37,8 @@ async function unassignRoleFromUser(userPrincipalName, roleId, directoryScopeId,
   const userId = userData.id;
 
   // Step 2: Check if role assignment exists (for idempotency)
-  const baseURL = `${address}/v1.0/roleManagement/directory/roleAssignments`;
-  const url = new URL(baseURL);
+  const roleAssignmentsUrl = `${address}/v1.0/roleManagement/directory/roleAssignments`;
+  const url = new URL(roleAssignmentsUrl);
   url.searchParams.set('$filter', `principalId eq '${userId}' and roleDefinitionId eq '${roleId}' and directoryScopeId eq '${directoryScopeId}'`);
   const checkAssignmentUrl = url.toString();
 
@@ -76,7 +76,7 @@ async function unassignRoleFromUser(userPrincipalName, roleId, directoryScopeId,
     scheduleInfo: {
       // Microsoft Graph API requires startDateTime to be at least 5 minutes in the future
       // for role removal operations to prevent "ActiveDurationTooShort" errors
-      startDateTime: new Date(Date.now() + 10 * 60 * 1000).toISOString() // 10 minutes from now
+      startDateTime: new Date(Date.now() + 6 * 60 * 1000).toISOString() // 6 minutes from now
     }
   };
 
