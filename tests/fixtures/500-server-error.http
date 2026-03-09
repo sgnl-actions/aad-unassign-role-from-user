@@ -1,0 +1,14 @@
+HTTP/1.1 500 Internal Server Error
+Content-Type: application/json
+
+{
+  "error": {
+    "code": "InternalServerError",
+    "message": "Internal server error",
+    "innerError": {
+      "date": "2026-03-05T02:15:30",
+      "request-id": "ef10a77fe-7d1c-794f-c6ib-b1b96f4899f7",
+      "client-request-id": "ef10a77fe-7d1c-794f-c6ib-b1b96f4899f7"
+    }
+  }
+}

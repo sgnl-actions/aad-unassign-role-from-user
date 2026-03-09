@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users/$entity",
+  "id": "c9139ac2-cd61-4dd7-b96d-6f0c3bcd36ca",
+  "businessPhones": [],
+  "displayName": "Test User",
+  "givenName": "Test",
+  "jobTitle": null,
+  "mail": null,
+  "mobilePhone": null,
+  "officeLocation": null,
+  "preferredLanguage": null,
+  "surname": "User",
+  "userPrincipalName": "testuser@yourtenant.onmicrosoft.com"
+}
